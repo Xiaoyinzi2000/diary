@@ -14,6 +14,8 @@ public class NoteDatabase extends SQLiteOpenHelper {
     public static final String ID = "_id";
     public static final String TIME = "time";
     public static final String MODE = "mode";
+    public static final String AUTHOR = "author";
+    public static final String TITLE ="title" ;
 
     public NoteDatabase(Context context) {
         super(context, "notes", null, 1);
@@ -26,6 +28,8 @@ public class NoteDatabase extends SQLiteOpenHelper {
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + CONTENT + " TEXT NOT NULL, "
                 + TIME + " TEXT NOT NULL, "
+                + AUTHOR  + " TEXT NOT NULL, "
+                + TITLE   + " TEXT NOT NULL, "
                 + MODE + " INTEGER DEFAULT 1)");
 
     }

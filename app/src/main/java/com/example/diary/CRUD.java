@@ -7,10 +7,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import com.example.diary.MainActivity;
-import com.example.diary.Note;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +20,8 @@ public class CRUD {
             NoteDatabase.ID,
             NoteDatabase.CONTENT,
             NoteDatabase.TIME,
+            NoteDatabase.AUTHOR,
+            NoteDatabase.TITLE,
             NoteDatabase.MODE
     };
 
@@ -50,6 +48,8 @@ public class CRUD {
         ContentValues contentValues = new ContentValues();
         contentValues.put(NoteDatabase.CONTENT, note.getContent());
         contentValues.put(NoteDatabase.TIME, note.getTime());
+        contentValues.put(NoteDatabase.AUTHOR , note.getAuthor() );
+        contentValues.put(NoteDatabase.TITLE  , note.getTitle() );
         contentValues.put(NoteDatabase.MODE, note.getTog());
         long insertId = db.insert(NoteDatabase.TABLE_NAME, null, contentValues);
         note.setId(insertId);
@@ -60,7 +60,7 @@ public class CRUD {
     public Note getNote(long id) {
         Cursor cursor = db.query(NoteDatabase.TABLE_NAME, columns, NoteDatabase.ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
         if (cursor != null) cursor.moveToFirst();
-        Note note = new Note(cursor.getString(1), cursor.getString(2), cursor.getInt(3));
+        Note note = new Note(cursor.getString(1), cursor.getString(2), cursor.getString(4),cursor.getString(5),cursor.getInt(3));
         return note;
     }
 
@@ -76,6 +76,8 @@ public class CRUD {
                 note.setId(cursor.getLong(cursor.getColumnIndex(NoteDatabase.ID)));
                 note.setContent(cursor.getString(cursor.getColumnIndex(NoteDatabase.CONTENT)));
                 note.setTime(cursor.getString(cursor.getColumnIndex(NoteDatabase.TIME)));
+                note.setAuthor(cursor.getString(cursor.getColumnIndex(NoteDatabase.AUTHOR ))) ;
+                note.setTitle(cursor.getString(cursor.getColumnIndex(NoteDatabase.TITLE ))); ;
                 note.setTog(cursor.getInt(cursor.getColumnIndex(NoteDatabase.MODE)));
                 list.add(note);
             }
@@ -88,6 +90,8 @@ public class CRUD {
         ContentValues values = new ContentValues();
         values.put(NoteDatabase.CONTENT, note.getContent());
         values.put(NoteDatabase.TIME, note.getTime());
+        values.put(NoteDatabase.AUTHOR , note.getAuthor() );
+        values.put(NoteDatabase.TITLE  , note.getTitle() );
         values.put(NoteDatabase.MODE, note.getTog());
         return db.update(NoteDatabase.TABLE_NAME, values,
                 NoteDatabase.ID + "=?", new String[]{String.valueOf(note.getId())});

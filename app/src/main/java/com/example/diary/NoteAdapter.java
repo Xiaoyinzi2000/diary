@@ -49,18 +49,24 @@ public class NoteAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         mContext.setTheme(R.style.DayTheme);
         //定义视图，获取组件
         View view = View.inflate(mContext, R.layout.note_layout,null);
+        TextView tv_title = view.findViewById(R.id.tv_title);
         TextView tv_content = view.findViewById(R.id.tv_content);
         TextView tv_time = view.findViewById(R.id.tv_time);
+        TextView tv_author = view.findViewById(R.id.tv_author );
 
         //获取文本内容，并赋值
-        String allText = noteList.get(position).getContent();
+        String allText2 = noteList.get(position).getTitle() ;
+        String allText1 = noteList.get(position).getContent();
+        String allText = noteList.get(position).getAuthor() ;
         String time = noteList.get(position).getTime();
         tv_content.setText(allText);
         tv_time.setText(time);
+        tv_author.setText(allText1);
+        tv_title.setText(allText2);
 
         //保存笔记的主键
         view.setTag(noteList.get(position).getId());
@@ -76,6 +82,8 @@ public class NoteAdapter extends BaseAdapter implements Filterable {
     }
 
     class MyFilter extends Filter {
+
+
         //定义过滤规则
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {

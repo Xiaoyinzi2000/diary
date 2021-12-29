@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -43,25 +44,19 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
 
     private NoteDatabase dbHelper;
 
+
     private Context context = this;
+    private Context  author = this;
+    private Context title = this;
     final String TAG = "System===";//输出
     private FloatingActionButton fa_btn;//悬浮按钮组件
     private ListView listView;
     private NoteAdapter adapter;
     private List<Note> noteList = new ArrayList<Note>();
+    //private List<Note> noteList2 = new ArrayList<Note>();
     private Toolbar myToolbar;
     private Intent intent = new Intent();
     int returnMode;//返回的mode值，-1表示无操作，0表示新增，1表示修改，2表示删除
-
-    //弹出菜单
-    private PopupWindow popupWindow;//弹出窗口
-    private PopupWindow popupCover;//灰色蒙版
-    private ViewGroup viewGroup;
-    private ViewGroup coverView;
-    private LayoutInflater layoutInflater;//渲染布局
-    private RelativeLayout main;
-    private WindowManager wm;//窗口管理器
-    private DisplayMetrics metrics;//显示矩阵，显示手机屏幕的宽高
 
     public MainActivity() {
     }
@@ -105,6 +100,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                 finish();
             }
         });
+
     }
 
 
@@ -182,12 +178,14 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         returnMode = data.getExtras().getInt("mode", -1);
         String content = data.getExtras().getString("content");
         String time = data.getExtras().getString("time");
+        String author = data.getExtras().getString("author");
+        String title = data.getExtras().getString("title");
         int tag = data.getExtras().getInt("tag", 1);
         note_Id = data.getExtras().getLong("id", 0);
         Log.d(TAG, "returnMode:" + returnMode);
         if (returnMode == 1) {//修改笔记
             //将结果写入Note实体类
-            Note newNote = new Note(content, time, tag);
+            Note newNote = new Note(content, time,author,title, tag);
             newNote.setId(note_Id);//需要通过id进行修改
             CRUD op = new CRUD(context);
             op.open();
@@ -195,7 +193,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
             op.close();
         } else if (returnMode == 0) {//新增笔记
             //将结果写入Note实体类
-            Note newNote = new Note(content, time, tag);
+            Note newNote = new Note(content, time,author,title , tag);
             CRUD op = new CRUD(context);
             op.open();
             op.addNote(newNote);
@@ -225,6 +223,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         if (noteList.size() > 0) {
             noteList.clear();
         }
+
         noteList.addAll(op.getAllNotes());
         op.close();
         adapter.notifyDataSetChanged();
@@ -247,6 +246,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                 intent.putExtra("content", curNote.getContent());
                 intent.putExtra("id", curNote.getId());
                 intent.putExtra("time", curNote.getTime());
+                intent.putExtra("author", curNote.getAuthor() );
+                intent.putExtra("title", curNote.getTitle() );
                 //修改笔记的mode设置为3，与新建笔记的mode值为4进行区分
                 intent.putExtra("mode", 3);
                 intent.putExtra("tag", curNote.getTog());

@@ -18,10 +18,20 @@
         android:theme="?attr/toolbarTheme"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
     </androidx.appcompat.widget.Toolbar>
-
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="top" />
     <EditText
         android:id="@+id/editText1"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="top" />
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="top" />
+
 </LinearLayout>

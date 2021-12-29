@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -8,16 +9,18 @@
     android:paddingTop="5dp"
     android:paddingBottom="12dp"
     android:background="@drawable/note_shape"
-    android:outlineAmbientShadowColor="@color/black">
+    android:outlineAmbientShadowColor="@color/black"
+    tools:targetApi="p">
 
     <TextView
-        android:id="@+id/tv_content"
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Content"
-        android:textSize="20dp"
+        android:text="Title"
+        android:textSize="20sp"
         android:textColor="?attr/tvMainColor"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/tv_time"
@@ -27,4 +30,12 @@
         android:textSize="16dp"
         android:textColor="@color/greyC"/>
 
+    <TextView
+        android:id="@+id/tv_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Author"
+        android:textSize="16dp"
+        android:textColor="@color/greyC"
+        android:singleLine="true"/>
 </LinearLayout>
